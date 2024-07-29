@@ -1,8 +1,17 @@
 package board
 
 type Board struct {
-	SizeX int
-	SizeY int
+	Sprite string
+	SizeX  int
+	SizeY  int
+}
+
+func New(s string, x, y int) Board {
+	return Board{
+		SizeY:  10,
+		SizeX:  20,
+		Sprite: " ",
+	}
 }
 
 type OutOfBoardBounds string

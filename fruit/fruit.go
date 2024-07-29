@@ -5,6 +5,10 @@ type Fruit struct {
 	Y int
 }
 
+func New(x, y int) Fruit {
+	return Fruit{x, y}
+}
+
 type Fruits []Fruit
 
 func (fs Fruits) CheckFruits(x, y int) bool {
