@@ -7,6 +7,7 @@ import (
 	"github.com/gdamore/tcell"
 	"github.com/jzes/snakinha-go/board"
 	"github.com/jzes/snakinha-go/fruit"
+	"github.com/jzes/snakinha-go/game"
 	"github.com/jzes/snakinha-go/land"
 	"github.com/jzes/snakinha-go/snake"
 )
@@ -50,55 +51,14 @@ func main() {
 
 	tcellFmt.Print(&buff)
 
-	for {
-		screen.Show()
+	g := game.
+		New().
+		WithScreen(screen).
+		WithPlayer(player1).
+		WithFormater(tcellFmt).
+		WithFormer(terraFormer).
+		WithBuffer(buff)
 
-		event := screen.PollEvent()
-
-		switch event := event.(type) {
-		case *tcell.EventResize:
-			screen.Sync()
-		case *tcell.EventKey:
-			if event.Key() == tcell.KeyEscape || event.Key() == tcell.KeyCtrlC {
-				return
-			}
-			if event.Key() == tcell.KeyDown {
-				player1.ToDown()
-
-				terraFormer.WithSnake(player1)
-
-				buff.Reset()
-				terraFormer.Form(&buff)
-				tcellFmt.Print(&buff)
-			}
-			if event.Key() == tcell.KeyUp {
-				player1.ToUp()
-
-				terraFormer.WithSnake(player1)
-
-				buff.Reset()
-				terraFormer.Form(&buff)
-				tcellFmt.Print(&buff)
-			}
-			if event.Key() == tcell.KeyRight {
-				player1.ToRight()
-
-				terraFormer.WithSnake(player1)
-
-				buff.Reset()
-				terraFormer.Form(&buff)
-				tcellFmt.Print(&buff)
-			}
-			if event.Key() == tcell.KeyLeft {
-				player1.ToLeft()
-
-				terraFormer.WithSnake(player1)
-
-				buff.Reset()
-				terraFormer.Form(&buff)
-				tcellFmt.Print(&buff)
-			}
-		}
-	}
+	g.Loop()
 
 }
