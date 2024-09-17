@@ -1,46 +1,40 @@
 package land
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"strings"
 
-	"github.com/jzes/snakinha-go/board"
-	"github.com/jzes/snakinha-go/fruit"
-	"github.com/jzes/snakinha-go/snake"
+	"github.com/gdamore/tcell"
+	"github.com/jzes/snakinha-go/world"
 )
 
-type Former struct {
-	board  board.Board
-	gardem fruit.Gardem
-	snake  snake.Snake
-}
-
-func (f *Former) WithBoard(b board.Board) {
-	f.board = b
-}
-
-func (f *Former) WithGardem(g fruit.Gardem) {
-	f.gardem = g
-}
-
-func (f *Former) WithSnake(s snake.Snake) {
-	f.snake = s
-}
-
-func (s *Former) Form(w io.Writer) {
-	for y := 0; y < s.board.SizeY; y++ {
-		for x := 0; x < s.board.SizeX; x++ {
+func Form(w io.Writer, world *world.World) {
+	for y := 0; y < world.Board.SizeY; y++ {
+		for x := 0; x < world.Board.SizeX; x++ {
 			switch {
-			case s.gardem.Fruits.CheckFruits(x, y):
-				fmt.Fprint(w, s.gardem.Sprite)
-			case s.snake.CheckSnake(x, y):
-				fmt.Fprint(w, s.snake.Sprite)
+			case world.Fruit.Equals(x, y):
+				fmt.Fprint(w, world.Fruit.Sprite)
+			case world.Player.CheckSnake(x, y):
+				fmt.Fprint(w, world.Player.Sprite)
 			default:
-				fmt.Fprint(w, s.board.Sprite)
+				fmt.Fprint(w, world.Board.Sprite)
 			}
 		}
 		fmt.Fprint(w, "|\n")
 	}
-	fmt.Fprint(w, strings.Repeat("-", s.board.SizeX))
+	fmt.Fprint(w, strings.Repeat("-", world.Board.SizeX))
+}
+
+func Print(w io.Writer, screen tcell.Screen) error {
+	land := strings.Split(w.(*bytes.Buffer).String(), "\n")
+
+	for y, line := range land {
+		for x, char := range line {
+			screen.SetContent(x, y, rune(char), nil, tcell.StyleDefault)
+		}
+	}
+
+	return nil
 }

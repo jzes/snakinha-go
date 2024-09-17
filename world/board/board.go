@@ -8,9 +8,9 @@ type Board struct {
 
 func New(s string, x, y int) Board {
 	return Board{
-		SizeY:  10,
-		SizeX:  20,
-		Sprite: " ",
+		SizeY:  y,
+		SizeX:  x,
+		Sprite: s,
 	}
 }
 
