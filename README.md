@@ -8,7 +8,7 @@ Snakinha-go é um *"jogo da cobrinha"* que funciona no terminal, simples assim
 
 Atualmente o jogo não tem muitas opções de configuração, por isso quero adicionar opcionais como
 
-[] definir a sprite da snake
-[] definir tamanho do board
-[] adicionar paredes invisiveis
+- [ ] definir a sprite da snake
+- [ ] definir tamanho do board
+- [ ] adicionar paredes invisiveis
 
